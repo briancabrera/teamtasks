@@ -20,5 +20,4 @@ public record TaskResponseDTO(
         UUID teamId,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
-) {
-}
+) {}
