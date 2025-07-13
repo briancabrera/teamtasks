@@ -31,7 +31,8 @@ class TaskControllerTest {
     @MockBean
     private CreateTaskUseCase createTaskUseCase;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     void createTask_shouldReturn201_whenValidRequest() throws Exception {
