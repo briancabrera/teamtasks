@@ -20,4 +20,14 @@ public interface SpringDataTaskRepository extends JpaRepository<TaskEntity, UUID
      * @return matching task entities
      */
     List<TaskEntity> findByAssignedUserIdAndStatusNot(UUID userId, Task.Status status);
+
+    List<TaskEntity> findByTeamId(UUID teamId);
+
+    List<TaskEntity> findByTeamIdAndStatus(UUID teamId, Task.Status status);
+
+    List<TaskEntity> findByTeamIdAndPriority(UUID teamId, Task.Priority priority);
+
+    List<TaskEntity> findByTeamIdAndStatusAndPriority(UUID teamId,
+                                                      Task.Status status,
+                                                      Task.Priority priority);
 }
