@@ -4,6 +4,8 @@ import com.briancabrera.teamtasks.domain.model.Task;
 import com.briancabrera.teamtasks.domain.repository.TaskRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,6 +32,25 @@ public class JpaTaskRepositoryAdapter implements TaskRepository {
     @Override
     public List<Task> findActiveTasksByUser(UUID userId) {
         List<TaskEntity> entities = repository.findByAssignedUserIdAndStatusNot(userId, Task.Status.DONE);
+        return entities.stream()
+                .map(TaskMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Task> findByTeamWithFilters(UUID teamId,
+                                            Optional<Task.Status> status,
+                                            Optional<Task.Priority> priority) {
+        List<TaskEntity> entities;
+        if (status.isPresent() && priority.isPresent()) {
+            entities = repository.findByTeamIdAndStatusAndPriority(teamId, status.get(), priority.get());
+        } else if (status.isPresent()) {
+            entities = repository.findByTeamIdAndStatus(teamId, status.get());
+        } else if (priority.isPresent()) {
+            entities = repository.findByTeamIdAndPriority(teamId, priority.get());
+        } else {
+            entities = repository.findByTeamId(teamId);
+        }
         return entities.stream()
                 .map(TaskMapper::toDomain)
                 .collect(Collectors.toList());
