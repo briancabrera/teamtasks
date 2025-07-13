@@ -32,7 +32,7 @@ public final class Task {
                 LocalDateTime createdAt,
                 LocalDateTime updatedAt) {
         this.id = Objects.requireNonNull(id, "id must not be null");
-        if (title == null || title.isBlank()) {
+        if (title == null || title.isEmpty()) {
             throw new IllegalArgumentException("title must not be empty");
         }
         this.title = title;
