@@ -78,7 +78,7 @@ class TaskControllerTest {
     }
 
     @Test
-    void listByTeam_shouldReturn200_withTasks() throws Exception {
+    void listByTeam_shouldReturn200_withTasks_andStatus_andPriority() throws Exception {
         UUID taskId = UUID.randomUUID();
         UUID teamId = UUID.randomUUID();
         TaskResponseDTO dto = new TaskResponseDTO(
@@ -99,6 +99,83 @@ class TaskControllerTest {
         mockMvc.perform(get("/tasks/team/" + teamId)
                         .param("status", Task.Status.PENDING.name())
                         .param("priority", Task.Priority.HIGH.name()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("[{'id':'" + taskId + "'}]", false));
+    }
+
+    @Test
+    void listByTeam_shouldReturn200_withTasks_andStatus() throws Exception {
+        UUID taskId = UUID.randomUUID();
+        UUID teamId = UUID.randomUUID();
+        TaskResponseDTO dto = new TaskResponseDTO(
+                taskId,
+                "Title",
+                "Desc",
+                LocalDate.now().plusDays(1),
+                Task.Priority.HIGH,
+                Task.Status.PENDING,
+                UUID.randomUUID(),
+                teamId,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        when(listTasksByTeamUseCase.execute(any())).thenReturn(List.of(dto));
+
+        mockMvc.perform(get("/tasks/team/" + teamId)
+                        .param("status", Task.Status.PENDING.name()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("[{'id':'" + taskId + "'}]", false));
+    }
+
+    @Test
+    void listByTeam_shouldReturn200_withTasks_andPriority() throws Exception {
+        UUID taskId = UUID.randomUUID();
+        UUID teamId = UUID.randomUUID();
+        TaskResponseDTO dto = new TaskResponseDTO(
+                taskId,
+                "Title",
+                "Desc",
+                LocalDate.now().plusDays(1),
+                Task.Priority.HIGH,
+                Task.Status.PENDING,
+                UUID.randomUUID(),
+                teamId,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        when(listTasksByTeamUseCase.execute(any())).thenReturn(List.of(dto));
+
+        mockMvc.perform(get("/tasks/team/" + teamId)
+                        .param("priority", Task.Priority.HIGH.name()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("[{'id':'" + taskId + "'}]", false));
+    }
+
+    @Test
+    void listByTeam_shouldReturn200_withTasks_noFilters() throws Exception {
+        UUID taskId = UUID.randomUUID();
+        UUID teamId = UUID.randomUUID();
+        TaskResponseDTO dto = new TaskResponseDTO(
+                taskId,
+                "Title",
+                "Desc",
+                LocalDate.now().plusDays(1),
+                Task.Priority.HIGH,
+                Task.Status.PENDING,
+                UUID.randomUUID(),
+                teamId,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+
+        when(listTasksByTeamUseCase.execute(any())).thenReturn(List.of(dto));
+
+        mockMvc.perform(get("/tasks/team/" + teamId))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("[{'id':'" + taskId + "'}]", false));

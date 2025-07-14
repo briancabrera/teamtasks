@@ -57,9 +57,9 @@ public class TaskController {
      */
     @GetMapping("/team/{teamId}")
     public ResponseEntity<List<TaskResponseDTO>> listByTeam(
-            @PathVariable UUID teamId,
-            @RequestParam Optional<Task.Status> status,
-            @RequestParam Optional<Task.Priority> priority) {
+            @PathVariable("teamId") UUID teamId,
+            @RequestParam("status") Optional<Task.Status> status,
+            @RequestParam("priority") Optional<Task.Priority> priority) {
         ListTasksByTeamQuery query = new ListTasksByTeamQuery(teamId, status, priority);
         List<TaskResponseDTO> response = listTasksByTeamUseCase.execute(query);
         return ResponseEntity.ok(response);
