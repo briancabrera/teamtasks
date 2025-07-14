@@ -1,4 +1,3 @@
-# Generá un Dockerfile multistage para un proyecto Maven + Spring Boot (Java 17)
 # Objetivo: construir la app en una imagen separada, y luego empaquetarla liviana en runtime.
 # Salida final: un JAR ejecutable expuesto en el puerto 8080.
 
