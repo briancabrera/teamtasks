@@ -16,6 +16,7 @@ services:
     image: postgres:15
     restart: always
     environment:
+      SPRING_PROFILES_ACTIVE: docker
       POSTGRES_DB: teamtasks
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

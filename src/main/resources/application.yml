@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: testlocal
 
   datasource:
     url: jdbc:postgresql://localhost:5432/fake_database
